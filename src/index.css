@@ -67,38 +67,36 @@
   }
 
   .dark {
-    --background: 0 0% 4%;
-    /* #0a0a0a */
+    --background: 240 10% 3.9%;
+    /* #09090b Deep Zinc */
     --foreground: 0 0% 98%;
-    /* #fafafa */
 
-    --card: 0 0% 7%;
-    /* #121212 */
+    --card: 240 10% 3.9%;
     --card-foreground: 0 0% 98%;
 
-    --popover: 0 0% 7%;
+    --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 30 53% 64%;
-    /* #d4a373 Gold/Bronze */
-    --primary-foreground: 0 0% 100%;
+    --primary: 60 9.1% 97.8%;
+    /* Cream/Off-White for high contrast */
+    --primary-foreground: 24 9.8% 10%;
 
-    --secondary: 0 0% 15%;
+    --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
 
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 65%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
 
-    --accent: 30 53% 64%;
-    /* Match primary for consistency */
-    --accent-foreground: 0 0% 100%;
+    --accent: 35 92% 50%;
+    /* Vibrant Amber for variety */
+    --accent-foreground: 0 0% 98%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 15%;
-    --input: 0 0% 15%;
-    --ring: 30 53% 64%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
   }
 }
 
@@ -110,6 +108,14 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  button,
+  input,
+  select,
+  textarea,
+  label {
+    font-family: var(--font-sans);
   }
 }
 

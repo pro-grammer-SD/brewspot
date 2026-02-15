@@ -117,6 +117,54 @@ export const Navbar = () => {
                     </Button>
                 </div>
             </div>
+            {/* Mobile Menu Overlay */}
+            <AnimatePresence>
+                {isMobileMenuOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        className="fixed inset-0 top-[72px] z-40 bg-background/95 backdrop-blur-xl md:hidden flex flex-col p-6 border-t border-primary/5"
+                    >
+                        <div className="flex flex-col gap-4 mt-4">
+                            {navLinks.map((link, i) => (
+                                <Link
+                                    key={link.path}
+                                    to={link.path}
+                                    onClick={toggleMobileMenu}
+                                >
+                                    <motion.div
+                                        initial={{ opacity: 0, x: -20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ delay: i * 0.1 }}
+                                        className={cn(
+                                            "text-3xl font-display font-bold py-4 border-b border-primary/5 transition-colors",
+                                            location.pathname === link.path ? "text-primary" : "text-primary/40 hover:text-primary"
+                                        )}
+                                    >
+                                        {link.name}
+                                    </motion.div>
+                                </Link>
+                            ))}
+                            <motion.div
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: 0.3 }}
+                                className="mt-8 flex gap-4"
+                            >
+                                <Button className="flex-1 h-14 text-lg font-bold rounded-xl" onClick={() => { window.location.href = '/profile'; toggleMobileMenu(); }}>
+                                    <User className="mr-2" />
+                                    Profile
+                                </Button>
+                                <Button variant="outline" className="flex-1 h-14 text-lg font-bold rounded-xl border-primary/10" onClick={() => { window.location.href = '/menu'; toggleMobileMenu(); }}>
+                                    <ShoppingBag className="mr-2" />
+                                    Cart ({cartCount})
+                                </Button>
+                            </motion.div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </nav>
     );
 };

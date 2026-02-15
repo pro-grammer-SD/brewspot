@@ -14,7 +14,7 @@ export const CoffeeCard = ({ coffee }: CoffeeCardProps) => {
             <motion.div
                 whileHover={{ y: -8 }}
                 whileTap={{ scale: 0.98 }}
-                className="group bg-surface rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-primary/5 flex flex-col h-full"
+                className="group glass-card rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col h-full"
             >
                 <div className="relative aspect-[4/5] overflow-hidden">
                     <motion.img
@@ -25,7 +25,7 @@ export const CoffeeCard = ({ coffee }: CoffeeCardProps) => {
                         className="w-full h-full object-cover"
                     />
                     {coffee.bestSeller && (
-                        <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider text-primary shadow-sm">
+                        <div className="absolute top-4 left-4 bg-background/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-sans font-bold uppercase tracking-wider text-primary shadow-sm border border-border/50">
                             Best Seller
                         </div>
                     )}

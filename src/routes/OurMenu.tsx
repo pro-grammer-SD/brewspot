@@ -11,99 +11,133 @@ import { cn } from "@/lib/utils";
 
 const categories = ["All", "Hot", "Iced", "Seasonal"] as const;
 
+const ease = [0.25, 0.46, 0.45, 0.94] as [number, number, number, number];
+
+const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: { staggerChildren: 0.08, delayChildren: 0.2 },
+    },
+};
+
+const cardItem = {
+    hidden: { opacity: 0, y: 30, scale: 0.95 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        transition: { duration: 0.5, ease },
+    },
+    exit: { opacity: 0, scale: 0.9, transition: { duration: 0.3 } },
+};
+
 export const OurMenu = () => {
-    const [selectedCategory, setSelectedCategory] = useState<typeof categories[number]>("All");
+    const [category, setCategory] = useState<typeof categories[number]>("All");
     const [searchQuery, setSearchQuery] = useState("");
 
-    const filteredCoffees = coffees.filter((c) => {
-        const matchesCategory = selectedCategory === "All" || c.category === selectedCategory;
-        const matchesSearch = c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            c.description.toLowerCase().includes(searchQuery.toLowerCase());
-        return matchesCategory && matchesSearch;
+    const filtered = coffees.filter((coffee) => {
+        const matchCategory = category === "All" || coffee.category === category;
+        const matchSearch = coffee.name.toLowerCase().includes(searchQuery.toLowerCase());
+        return matchCategory && matchSearch;
     });
 
     return (
         <PageTransition>
             <div className="px-4 md:px-8 max-w-7xl mx-auto pb-20">
-                <header className="pt-10 mb-12">
-                    <h1 className="text-4xl md:text-6xl font-display font-bold text-primary mb-8">Our Menu</h1>
+                <motion.header
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    className="pt-10 mb-12"
+                >
+                    <motion.h1
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.1, duration: 0.5 }}
+                        className="text-4xl md:text-6xl font-display font-bold text-primary mb-4"
+                    >
+                        Our Menu
+                    </motion.h1>
+                    <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.2, duration: 0.5 }}
+                        className="text-primary/60 text-lg"
+                    >
+                        Discover your next favorite brew from our curated selection.
+                    </motion.p>
+                </motion.header>
 
-                    <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-                        <div className="flex w-full md:w-auto bg-primary/5 p-1.5 rounded-2xl overflow-x-auto no-scrollbar">
-                            {categories.map((cat) => (
-                                <button
-                                    key={cat}
-                                    onClick={() => setSelectedCategory(cat)}
-                                    className={cn(
-                                        "relative px-6 py-3 rounded-xl text-sm font-bold transition-all whitespace-nowrap z-0",
-                                        selectedCategory === cat ? "text-primary-foreground" : "text-primary/50 hover:text-primary"
-                                    )}
-                                >
-                                    {selectedCategory === cat && (
-                                        <motion.div
-                                            layoutId="category-pill"
-                                            className="absolute inset-0 bg-primary rounded-xl -z-10 shadow-lg shadow-primary/20"
-                                            transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                                        />
-                                    )}
-                                    {cat}
-                                </button>
-                            ))}
-                        </div>
-
-                        <div className="relative w-full md:w-96 group">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-primary/30 group-focus-within:text-accent transition-colors" size={20} />
-                            <Input
-                                autoFocus={window.location.search.includes('focus=true')}
-                                placeholder="Search your brew..."
-                                value={searchQuery}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
-                                className="pl-12 py-7 rounded-2xl border-primary/5 bg-primary/5 focus:bg-white focus:ring-accent/20 transition-all text-lg font-medium"
-                            />
-                        </div>
-                    </div>
-                </header>
-
-                <AnimatePresence mode="popLayout">
-                    {filteredCoffees.length > 0 ? (
-                        <motion.div
-                            layout
-                            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8"
-                        >
-                            {filteredCoffees.map((coffee) => (
-                                <motion.div
-                                    key={coffee.id}
-                                    layout
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0, scale: 0.9 }}
-                                    transition={{ duration: 0.3 }}
-                                >
-                                    <CoffeeCard coffee={coffee} />
-                                </motion.div>
-                            ))}
-                        </motion.div>
-                    ) : (
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            className="py-32 flex flex-col items-center text-center"
-                        >
-                            <div className="w-20 h-20 bg-primary/5 rounded-full flex items-center justify-center mb-6">
-                                <Search size={32} className="text-primary/10" />
-                            </div>
-                            <h3 className="text-2xl font-bold text-primary mb-2">No results found</h3>
-                            <p className="text-primary/40">Try searching for something else or explore all categories.</p>
-                            <Button
-                                variant="outline"
-                                className="mt-6 rounded-xl border-primary/10"
-                                onClick={() => { setSearchQuery(""); setSelectedCategory("All"); }}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.25, duration: 0.5 }}
+                    className="flex flex-col md:flex-row gap-6 mb-12"
+                >
+                    <div className="flex gap-2 flex-wrap">
+                        {categories.map((cat, i) => (
+                            <motion.div
+                                key={cat}
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: 0.3 + i * 0.05 }}
                             >
-                                Clear all filters
-                            </Button>
-                        </motion.div>
-                    )}
+                                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                                    <Button
+                                        variant={category === cat ? "default" : "outline"}
+                                        onClick={() => setCategory(cat)}
+                                        className={cn(
+                                            "rounded-full px-6 h-12 font-bold transition-all duration-300",
+                                            category === cat
+                                                ? "shadow-lg shadow-primary/20"
+                                                : "hover:bg-primary/5"
+                                        )}
+                                    >
+                                        {cat}
+                                    </Button>
+                                </motion.div>
+                            </motion.div>
+                        ))}
+                    </div>
+                    <div className="relative flex-grow max-w-sm">
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-primary/30" size={20} />
+                        <Input
+                            placeholder="Search your brew..."
+                            value={searchQuery}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
+                            className="pl-12 py-7 rounded-2xl border-primary/5 bg-primary/5 focus:bg-card focus:ring-accent/20 transition-all text-lg font-sans font-medium"
+                        />
+                    </div>
+                </motion.div>
+
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={category + searchQuery}
+                        variants={staggerContainer}
+                        initial="hidden"
+                        animate="visible"
+                        exit="hidden"
+                        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+                    >
+                        {filtered.map((coffee) => (
+                            <motion.div key={coffee.id} variants={cardItem} layout>
+                                <CoffeeCard coffee={coffee} />
+                            </motion.div>
+                        ))}
+                    </motion.div>
                 </AnimatePresence>
+
+                {filtered.length === 0 && (
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="text-center py-20"
+                    >
+                        <p className="text-2xl font-display font-bold text-primary/30">No brews found</p>
+                        <p className="text-primary/20 mt-2">Try a different search or category.</p>
+                    </motion.div>
+                )}
             </div>
         </PageTransition>
     );
