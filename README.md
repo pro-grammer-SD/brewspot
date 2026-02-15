@@ -16,6 +16,13 @@
     <a href="https://github.com/pro-grammer-SD/brewspot/pulls">Request Feature</a>
   </p>
 </div>
+</div>
+
+<br />
+
+<div align="center">
+  <img src="gallery/image.png" alt="BrewSpot Demo" width="800" style="border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+</div>
 
 <br />
 
