@@ -1,5 +1,6 @@
+import { useState, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Sparkles, TrendingUp } from "lucide-react";
+import { ArrowRight, Sparkles, TrendingUp, Volume2, VolumeX, Play, Pause } from "lucide-react";
 import { Link } from "react-router-dom";
 import { PageTransition } from "@/components/layout/PageTransition";
 import { Button } from "@/components/ui/button";
@@ -37,6 +38,28 @@ const staggerItem = {
 
 export const Home = () => {
     const featured = coffees.filter(c => c.bestSeller);
+    const videoRef = useRef<HTMLVideoElement>(null);
+    const [isMuted, setIsMuted] = useState(true);
+    const [isPlaying, setIsPlaying] = useState(true);
+
+    const toggleMute = useCallback(() => {
+        if (videoRef.current) {
+            videoRef.current.muted = !videoRef.current.muted;
+            setIsMuted(!isMuted);
+        }
+    }, [isMuted]);
+
+    const togglePlayPause = useCallback(() => {
+        if (videoRef.current) {
+            if (videoRef.current.paused) {
+                videoRef.current.play();
+                setIsPlaying(true);
+            } else {
+                videoRef.current.pause();
+                setIsPlaying(false);
+            }
+        }
+    }, []);
 
     return (
         <PageTransition>
@@ -113,6 +136,92 @@ export const Home = () => {
                         </Link>
                     </motion.div>
                 </div>
+            </section>
+
+            {/* ── Cinematic Video Ad ── */}
+            <section className="py-16 md:py-24 px-4 md:px-8 max-w-7xl mx-auto">
+                <motion.div
+                    initial={{ opacity: 0, y: 60, scale: 0.96 }}
+                    whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                    viewport={{ once: true, margin: "-80px" }}
+                    transition={{ duration: 0.8, ease }}
+                    className="relative rounded-3xl overflow-hidden group"
+                >
+                    {/* Video – no native controls */}
+                    <video
+                        ref={videoRef}
+                        src="/ad.mp4"
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="w-full aspect-video object-cover"
+                    />
+
+                    {/* Bottom gradient scrim */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent pointer-events-none" />
+                    {/* Side vignette */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30 pointer-events-none" />
+
+                    {/* Top-left badge */}
+                    <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.5, duration: 0.5, ease }}
+                        className="absolute top-5 left-5 md:top-8 md:left-8 z-10"
+                    >
+                        <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-xl border border-white/15 text-white text-xs font-bold tracking-widest uppercase">
+                            <motion.div
+                                animate={{ scale: [1, 1.3, 1] }}
+                                transition={{ duration: 2, repeat: Infinity }}
+                                className="w-2 h-2 rounded-full bg-red-500"
+                            />
+                            Now Showing
+                        </div>
+                    </motion.div>
+
+                    {/* Bottom-left text overlay */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.6, duration: 0.6, ease }}
+                        className="absolute bottom-6 left-5 md:bottom-10 md:left-8 z-10 max-w-lg"
+                    >
+                        <h3 className="text-2xl md:text-4xl font-display font-bold text-white leading-tight mb-2">
+                            The BrewSpot Story
+                        </h3>
+                        <p className="text-sm md:text-base text-white/60 leading-relaxed">
+                            From bean to cup — discover the craft behind every sip.
+                        </p>
+                    </motion.div>
+
+                    {/* Bottom-right controls */}
+                    <div className="absolute bottom-6 right-5 md:bottom-10 md:right-8 z-10 flex items-center gap-2">
+                        <motion.button
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            onClick={togglePlayPause}
+                            className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 backdrop-blur-xl border border-white/15 flex items-center justify-center text-white transition-colors hover:bg-white/20 cursor-pointer"
+                            aria-label={isPlaying ? "Pause" : "Play"}
+                        >
+                            {isPlaying ? <Pause size={18} /> : <Play size={18} />}
+                        </motion.button>
+                        <motion.button
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            onClick={toggleMute}
+                            className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 backdrop-blur-xl border border-white/15 flex items-center justify-center text-white transition-colors hover:bg-white/20 cursor-pointer"
+                            aria-label={isMuted ? "Unmute" : "Mute"}
+                        >
+                            {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
+                        </motion.button>
+                    </div>
+
+                    {/* Hover ring glow */}
+                    <div className="absolute inset-0 rounded-3xl ring-1 ring-white/10 group-hover:ring-accent/30 transition-all duration-700 pointer-events-none" />
+                </motion.div>
             </section>
 
             {/* Featured Section */}
