@@ -1,6 +1,6 @@
 <div align="center">
   <br />
-  <a href="https://github.com/pro-grammer-SD/brewspot">
+  <a href="https://github.com/programmersd/brewspot">
     <img src="public/coffee-icon.svg" alt="BrewSpot Logo" width="140" height="140">
   </a>
   <h1 align="center">BrewSpot ☕ | Coffee Ordering Platform (Template) 🌟</h1>
@@ -11,9 +11,9 @@
     An artisanal, production-grade ordering application built for the modern web.
     <br />
     <br />
-    <a href="https://github.com/pro-grammer-SD/brewspot/issues">Report Bug</a>
+    <a href="https://github.com/programmersd/brewspot/issues">Report Bug</a>
     ·
-    <a href="https://github.com/pro-grammer-SD/brewspot/pulls">Request Feature</a>
+    <a href="https://github.com/programmersd/brewspot/pulls">Request Feature</a>
   </p>
 </div>
 </div>
@@ -74,7 +74,7 @@ Built with the bleeding-edge **React 19** and **Tailwind CSS v4**, customized wi
 
 1.  **Clone the repository**
     ```bash
-    git clone https://github.com/pro-grammer-SD/brewspot.git
+    git clone https://github.com/programmersd/brewspot.git
     cd brewspot
     ```
 
@@ -136,5 +136,5 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ---
 
 <div align="center">
-  <p>Developed with ❤️ and ☕ by <a href="https://github.com/pro-grammer-SD">pro-grammer-SD</a></p>
+  <p>Developed with ❤️ and ☕ by <a href="https://github.com/programmersd">programmersd</a></p>
 </div>
